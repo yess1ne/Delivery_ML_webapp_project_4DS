@@ -112,7 +112,7 @@ def predict_clustering():
     if request.method == 'POST':
         # Récupérer les valeurs du formulaire
         try:
-            input_data = {
+            clustering_input_data = {
     'total_orders': float(request.form['total_orders']),
     'avg_order_value': float(request.form['avg_order_value']),
     'avg_items_per_order': float(request.form['avg_items_per_order']),
@@ -125,13 +125,13 @@ def predict_clustering():
 }
 
             # Transformer en DataFrame
-            X_new = pd.DataFrame([input_data])
+            X_new = pd.DataFrame([clustering_input_data])
             # Mise à l’échelle des nouvelles données avec le scaler entraîné
-            X_scaled = scaler.transform(X_new)
+            X_scaled = clustering_scaler.transform(X_new)
 
             # Prédire le cluster
             cluster = clustering_model.predict(X_new)[0]
-            return render_template('clustering_result.html', cluster=cluster, data=input_data)
+            return render_template('clustering_result.html', cluster=cluster, data=clustering_input_data)
 
         except Exception as e:
             return f"Erreur lors de la prédiction : {e}"
