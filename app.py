@@ -14,6 +14,7 @@ features = artifact["features"]
 df_clustering = pd.read_csv("datadelevry_cleaned.csv")
 clustering_model= joblib.load("clustering.pkl")
 classification_model = joblib.load("delivery_delay_model.pkl")
+clustering_scaler = joblib.load("scaler.pkl")
 
 FEATURES = [
     'subtotal',
@@ -125,6 +126,8 @@ def predict_clustering():
 
             # Transformer en DataFrame
             X_new = pd.DataFrame([input_data])
+            # Mise à l’échelle des nouvelles données avec le scaler entraîné
+            X_scaled = scaler.transform(X_new)
 
             # Prédire le cluster
             cluster = clustering_model.predict(X_new)[0]
